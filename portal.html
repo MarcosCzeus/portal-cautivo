@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Portal Cautivo</title>
+    <style>
+        body{
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <h2>Acceso a Internet</h2>
+    <form id="form">
+        <input type="text" id="nombre" required placeholder="Tu Nombre">
+        <button type="submit">Acceder</button>
+    </form>
+
+    <script type="module">
+        // 🔹 Importar Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+
+        // 🔹 Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCKPtLbW4KS92XlUIKcg3C6I_L3oqin9EY",
+            authDomain: "portal-da885.firebaseapp.com",
+            projectId: "portal-da885",
+            storageBucket: "portal-da885.appspot.com",
+            messagingSenderId: "807376657129",
+            appId: "1:807376657129:web:b6a425b16c6070fcb22e78"
+        };
+
+        // 🔹 Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 🔹 Capturar y Guardar Nombre en Firestore
+        document.getElementById("form").addEventListener("submit", async function(e) {
+            e.preventDefault(); // Evita recargar la página
+            const nombre = document.getElementById("nombre").value;
+
+            try {
+                await addDoc(collection(db, "usuarios"), {
+                    nombre: nombre,
+                    fecha: serverTimestamp() // 🔹 Guarda la fecha automáticamente
+                });
+
+                alert("Registro exitoso. Redirigiendo...");
+                window.location.href = "https://www.google.com"; // 🔹 Redirige tras guardar
+
+            } catch (error) {
+                console.error("Error al guardar:", error);
+            }
+        });
+    </script>
+</body>
+</html>
