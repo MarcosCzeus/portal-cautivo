@@ -2,57 +2,118 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Cautivo</title>
     <style>
-        body{
-            background-color: blue;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #007bff, #6610f2);
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 320px;
+        }
+
+        .logo {
+            width: 100px;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h2>Acceso a Internet</h2>
-    <form id="form">
-        <input type="text" id="nombre" required placeholder="Tu Nombre">
-        <button type="submit">Acceder</button>
-    </form>
+
+    <div class="container">
+        <img src="https://via.placeholder.com/100" alt="Logo" class="logo">
+        <h2>Acceso a Internet</h2>
+        <form id="form">
+            <!-- Campos del formulario -->
+            <input type="text" id="nombre" required placeholder="Tu Nombre">
+            <input type="email" id="gmail" required placeholder="correo@correo.com">
+            <button type="submit">Acceder</button>
+        </form>
+    </div>
 
     <script type="module">
-        // 🔹 Importar Firebase SDK
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+        // imports de firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
-        // 🔹 Configuración de Firebase
+        //se manda a llamar la configuración de firebase
         const firebaseConfig = {
-            apiKey: "AIzaSyCKPtLbW4KS92XlUIKcg3C6I_L3oqin9EY",
-            authDomain: "portal-da885.firebaseapp.com",
-            projectId: "portal-da885",
-            storageBucket: "portal-da885.appspot.com",
-            messagingSenderId: "807376657129",
-            appId: "1:807376657129:web:b6a425b16c6070fcb22e78"
+            apiKey: "AIzaSyAcAs7O0aoAEKi7E...",
+            authDomain: "portal-1ffe8.firebaseapp.com",
+            projectId: "portal-1ffe8",
+            storageBucket: "portal-1ffe8.appspot.com",
+            messagingSenderId: "789261228518",
+            appId: "1:789261228518:web:77b8916022700635569e27"
         };
-
-        // 🔹 Inicializar Firebase
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-
-        // 🔹 Capturar y Guardar Nombre en Firestore
+        // Se agrega el evento submit al formulario y se crea un get para obtener los valores de los campos
         document.getElementById("form").addEventListener("submit", async function(e) {
-            e.preventDefault(); // Evita recargar la página
+            e.preventDefault();
             const nombre = document.getElementById("nombre").value;
-
+            const gmail = document.getElementById("gmail").value;
+            // Se agrega un try catch para manejar los errores
             try {
                 await addDoc(collection(db, "usuarios"), {
                     nombre: nombre,
-                    fecha: serverTimestamp() // 🔹 Guarda la fecha automáticamente
+                    gmail: gmail,
+                    fecha: serverTimestamp()
                 });
 
                 alert("Registro exitoso. Redirigiendo...");
-                window.location.href = "https://www.google.com"; // 🔹 Redirige tras guardar
+                window.location.href = "https://www.google.com";
 
             } catch (error) {
                 console.error("Error al guardar:", error);
             }
         });
     </script>
+
 </body>
 </html>
